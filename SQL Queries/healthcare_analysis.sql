@@ -51,10 +51,11 @@ FROM appointments;
 
 
 -- Business Question 4
--- What is the total healthcare revenue?
+-- What is the collected healthcare revenue?
 
 SELECT SUM(total_amount) AS total_healthcare_revenue
-FROM billing;
+FROM billing
+WHERE payment_status = 'Paid';
 
 
 -- Business Question 5
@@ -117,9 +118,9 @@ SECTION 3 : DOCTOR PERFORMANCE ANALYSIS
 
 -- How many patients are handled by each doctor?
 
-SELECT d.doctor_name, COUNT(a.patient_id) AS total_patients
+SELECT d.doctor_name, COUNT(DISTINCT a.patient_id) AS total_patients
 FROM doctors d
-JOIN appointments a
+LEFT JOIN appointments a
 ON d.doctor_id = a.doctor_id
 GROUP BY d.doctor_name
 ORDER BY total_patients DESC;
@@ -161,7 +162,11 @@ ORDER BY total_appointments DESC;
 
 -- What is the appointment completion percentage?
 
-SELECT ROUND(COUNT(*) FILTER(WHERE appointment_status='Completed')*100.0/COUNT(*), 2) AS completion_percentage
+SELECT ROUND(
+    COUNT(*) FILTER (WHERE appointment_status = 'Completed') * 100.0
+    / NULLIF(COUNT(*), 0),
+    2
+) AS completion_percentage
 FROM appointments;
 
 
@@ -235,10 +240,11 @@ FROM billing
 WHERE payment_status='Pending';
 
 
--- Monthly healthcare revenue trend
+-- Monthly collected healthcare revenue trend
 
 SELECT DATE_TRUNC('month', billing_date) AS month, SUM(total_amount) AS revenue
 FROM billing
+WHERE payment_status = 'Paid'
 GROUP BY DATE_TRUNC('month', billing_date)
 ORDER BY month;
 

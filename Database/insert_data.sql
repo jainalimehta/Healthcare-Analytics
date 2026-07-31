@@ -25,6 +25,10 @@ Database System:
 PostgreSQL
 ==========================================================*/
 
+-- Make the sample load repeatable without creating duplicate rows.
+TRUNCATE TABLE insurance_claims, billing, treatments, appointments, doctors, patients
+RESTART IDENTITY CASCADE;
+
 /*==========================================================
 SECTION 1 : INSERT DATA INTO PATIENTS TABLE
 Stores patient demographic information.
@@ -156,25 +160,25 @@ INSERT INTO billing
 
 VALUES
 
-(1,1,1,'2025-01-05',500.00,'Paid','Credit Card'),
+(1,1,1,'2025-02-01',500.00,'Paid','Credit Card'),
 
-(2,2,2,'2025-01-10',1200.00,'Paid','Insurance'),
+(2,2,2,'2025-02-05',1200.00,'Paid','Insurance'),
 
-(3,3,3,'2025-02-02',300.00,'Paid','Debit Card'),
+(3,3,3,'2025-02-10',300.00,'Paid','Debit Card'),
 
-(4,5,4,'2025-02-14',250.00,'Paid','Credit Card'),
+(4,5,4,'2025-03-05',250.00,'Paid','Credit Card'),
 
-(5,6,5,'2025-03-06',800.00,'Pending','Insurance'),
+(5,6,5,'2025-03-15',800.00,'Pending','Insurance'),
 
-(6,7,6,'2025-03-18',200.00,'Paid','Debit Card'),
+(6,7,6,'2025-04-01',200.00,'Paid','Debit Card'),
 
-(7,8,7,'2025-04-08',700.00,'Paid','Credit Card'),
+(7,8,7,'2025-04-10',700.00,'Paid','Credit Card'),
 
-(8,10,8,'2025-04-21',900.00,'Pending','Insurance'),
+(8,10,8,'2025-05-15',900.00,'Pending','Insurance'),
 
-(9,1,9,'2025-05-05',150.00,'Paid','Cash'),
+(9,1,9,'2025-06-01',150.00,'Paid','Cash'),
 
-(10,3,10,'2025-05-20',1000.00,'Paid','Insurance');
+(10,3,10,'2025-06-10',1000.00,'Paid','Insurance');
 
 /*==========================================================
 SECTION 6 : INSERT DATA INTO INSURANCE_CLAIMS TABLE
