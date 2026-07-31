@@ -14,6 +14,7 @@ A PostgreSQL portfolio project that models patients, clinicians, appointments, t
 
 ```text
 .
+├── .github/workflows/sql-validation.yml
 ├── AI Analysis/
 │   ├── ai_insights.md
 │   ├── ai_prompts.md
@@ -23,6 +24,7 @@ A PostgreSQL portfolio project that models patients, clinicians, appointments, t
 │   └── insert_data.sql
 ├── SQL Queries/
 │   └── healthcare_analysis.sql
+├── scripts/validate.sh
 └── README.md
 ```
 
@@ -62,6 +64,16 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "Database/create_tables.sql"
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "Database/insert_data.sql"
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "SQL Queries/healthcare_analysis.sql"
 ```
+
+## Validate the project
+
+Set `DATABASE_URL` to an empty PostgreSQL database and run:
+
+```bash
+DATABASE_URL="postgresql:///healthcare_analytics" ./scripts/validate.sh
+```
+
+The validator runs the schema and seed twice, executes every analysis query, checks expected row counts, collected revenue, billing chronology, and patient linkage, then rolls back its changes. GitHub Actions runs the same validation on every push and pull request.
 
 ## Metric definitions
 
